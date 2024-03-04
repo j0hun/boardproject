@@ -1,37 +1,41 @@
 package com.jyhun.board.board.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import com.jyhun.board.audit.BaseEntity;
+import com.jyhun.board.post.entity.Post;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Board {
+public class Board extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
     private String description;
 
-    private LocalDateTime createAt;
+    @OneToMany(mappedBy = "board")
+    private final List<Post> postList = new ArrayList<>();
 
-    private LocalDateTime updateAt;
-
-    @Builder
-    public Board(String name, String description, LocalDateTime createAt, LocalDateTime updateAt) {
+    @Builder(toBuilder = true)
+    public Board(String name, String description) {
         this.name = name;
         this.description = description;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
+    }
+
+    public void update(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 }

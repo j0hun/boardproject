@@ -1,31 +1,40 @@
 package com.jyhun.board.comment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.jyhun.board.audit.BaseEntity;
+import com.jyhun.board.post.entity.Post;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @NoArgsConstructor
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "content")
     private String content;
 
-    private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
-    private LocalDateTime updatedAt;
+    public void setPost(Post post) {
+        this.post = post;
+        this.post.getCommentList().add(this);
+    }
 
-    @Builder
-    public Comment(String content) {
+    @Builder(toBuilder = true)
+    public Comment(Post post, String content) {
+        this.post = post;
+        this.content = content;
+    }
+
+    public void update(String content) {
         this.content = content;
     }
 }

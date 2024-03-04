@@ -16,28 +16,26 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional(readOnly = true)
-    public List<Board> getBoards(){
+    public List<Board> getBoards() {
         return boardRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Board getBoard(Long boardId){
+    public Board getBoard(Long boardId) {
         return boardRepository.findById(boardId).orElse(null);
     }
 
-    public Board createBoard(Board board){
+    public Board createBoard(Board board) {
         return boardRepository.save(board);
     }
 
-    public Board updateBoard(Board board,Long boardId){
+    public Board updateBoard(Board board, Long boardId) {
         Board newBoard = boardRepository.findById(boardId).orElse(null);
-        newBoard.builder().name(board.getName())
-                .description(board.getDescription())
-                .build();
-        return boardRepository.save(board);
+        newBoard.update(board.getName(), board.getDescription());
+        return boardRepository.save(newBoard);
     }
 
-    public void deleteBoard(Long boardId){
+    public void deleteBoard(Long boardId) {
         Board newBoard = boardRepository.findById(boardId).orElse(null);
         boardRepository.delete(newBoard);
     }
