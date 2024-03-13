@@ -3,6 +3,7 @@ package com.jyhun.board.board.entity;
 import com.jyhun.board.audit.BaseEntity;
 import com.jyhun.board.post.entity.Post;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends BaseEntity {
 
     @Id

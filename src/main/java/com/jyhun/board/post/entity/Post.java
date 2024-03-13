@@ -4,17 +4,14 @@ import com.jyhun.board.audit.BaseEntity;
 import com.jyhun.board.board.entity.Board;
 import com.jyhun.board.comment.entity.Comment;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
 public class Post extends BaseEntity {
 
